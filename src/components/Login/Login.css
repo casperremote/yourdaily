@@ -1,0 +1,46 @@
+.login-container {
+  min-height: 100vh;
+  width: 100vw;
+  background: transparent linear-gradient(180deg, #ffecd7 0%, #ffc9c9 100%) 0%
+    0% no-repeat padding-box;
+  opacity: 1;
+}
+.login-image {
+  background: transparent;
+  opacity: 1;
+}
+.login-content-wrapper {
+  width: 100%;
+  margin: auto;
+  padding: 0 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+}
+.login-paper-box {
+  min-width: 345px;
+  height: 418px;
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+}
+.login-forgot-password {
+  display: flex;
+  margin-top: -20px;
+  justify-content: right;
+  color: #f88a12;
+}
+.forgot-password {
+  font-size: 20px;
+}
+.login-btn {
+  background: transparent
+    linear-gradient(180deg, var(--unnamed-color-f88a12) 0%, #cd2d05 100%) 0% 0%
+    no-repeat padding-box;
+  background: transparent linear-gradient(180deg, #f88a12 0%, #cd2d05 100%) 0%
+    0% no-repeat padding-box;
+}
