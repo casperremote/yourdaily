@@ -5,6 +5,7 @@ import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { DashBoard } from "./components/DashBoard/DashBoard";
 import { PrivateRoute } from "./components/PrivateRoute/PrivateRoute";
+import { Categories } from "./components/DashBoard/pages/Categories/Categories";
 
 const App = () => {
   return (
@@ -12,6 +13,8 @@ const App = () => {
       <Switch>
         <Route exact path="/" component={Login} />
         <PrivateRoute exact path="/dashboard" component={DashBoard} />
+        <PrivateRoute exact path="/dashboard/categories" component={Categories} />
+        
       </Switch>
     </Router>
   );

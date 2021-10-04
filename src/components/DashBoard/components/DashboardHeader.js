@@ -4,6 +4,7 @@ import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt"
 import LogoutIcon from "@mui/icons-material/Logout"
 import { useHistory } from "react-router"
 import SVGLogo from "../../../assets/images/logosvg.svg"
+import CategoryIcon from '@mui/icons-material/Category';
 
 export const DashboardHeader = () => {
   const history = useHistory()
@@ -29,6 +30,11 @@ export const DashboardHeader = () => {
             </Typography>
           </div>
           <div className='dashboard-header-icons'>
+            <IconButton onClick={()=>{
+              history.push('/dashboard/categories')
+            }}>
+              <CategoryIcon style={{ color: "#fff" }} />
+            </IconButton>
             <IconButton>
               <PersonAddAltIcon style={{ color: "#fff" }} />
             </IconButton>
