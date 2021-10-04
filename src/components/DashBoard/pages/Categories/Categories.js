@@ -1,36 +1,22 @@
 import { Button, Container, Typography } from "@mui/material"
-import axios from "axios"
 import React, { useEffect, useState } from "react"
-import { baseURL } from "../../../../config"
-import { isAuthenticated } from "../../../utils/isAuthenticated"
 import { DashboardHeader } from "../../components/DashboardHeader"
 import "./categories.css"
-
+import { useHistory } from "react-router-dom"
+import { fetchCategories } from "../Helper"
 export const Categories = () => {
+  const history = useHistory()
+
   const [data, setData] = useState(null)
 
-  const fetchCategories = async () => {
-    try {
-      const response = await axios.get(
-        `${baseURL}/api/store-manager/category`,
-        {
-          headers: {
-            Authorization: `${JSON.parse(isAuthenticated())}`,
-          },
-        }
-      )
-      if (response) {
-        console.log(response.data)
-        setData(response.data)
-      }
-    } catch (error) {
-      console.log()
-    }
-  }
-
   useEffect(() => {
-    fetchCategories()
+    async function fetch() {
+      const res = await fetchCategories()
+      setData(res)
+    }
+    fetch()
   }, [])
+  // console.log(data)
 
   if (data == null) {
     return <div></div>
@@ -49,7 +35,7 @@ export const Categories = () => {
           <Typography
             style={{ color: "#F88A12", fontSize: "22px", cursor: "pointer" }}
           >
-            + Add New Categories
+            + Add New Category
           </Typography>
         </div>
         <table className='categories-table'>
@@ -70,6 +56,9 @@ export const Categories = () => {
                       color: "#F88A12",
                       textTransform: "capitalize",
                       cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      history.push(`/dashboard/categories/${item.category}`)
                     }}
                   >
                     {item.category}
