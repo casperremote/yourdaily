@@ -17,7 +17,9 @@ export const DashboardHeader = () => {
     <div className='header-dashboard'>
       <Container>
         <div className='header-dashboard-wrapper'>
-          <div className="header-dashboard-logo">
+          <div className="header-dashboard-logo" onClick={()=>{
+            history.push('/')
+          }}>
             <img src={SVGLogo} alt='company-logo' />
             <Typography
               fontSize={22}
