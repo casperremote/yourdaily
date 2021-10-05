@@ -5,13 +5,13 @@ import { useHistory } from "react-router"
 import { baseURL } from "../../../../config"
 import { isAuthenticated } from "../../../utils/isAuthenticated"
 import { DashboardHeader } from "../../components/DashboardHeader"
-import { fetchCategories } from "../Helper"
+import { fetchCategories, updateItem } from "../Helper"
 import Tick from "../../../../assets/images/true-tick.svg"
 import UnTick from "../../../../assets/images/false-untick.svg"
 
 export const Items = ({ match }) => {
   const history = useHistory()
-
+  const [tempInstock, setTempInstock] = useState({ inStock: null, id: null })
   const [categories, setCategories] = useState(null)
   const [allItems, setAllItems] = useState(null)
 
@@ -40,7 +40,7 @@ export const Items = ({ match }) => {
       setCategories(res)
     }
     fetch()
-  }, [])
+  }, [tempInstock])
 
   useEffect(() => {
     if (categories != null) {
@@ -51,6 +51,22 @@ export const Items = ({ match }) => {
       // console.log(categoryId)
     }
   }, [match.params.categoryName, categories])
+
+  const handleUpdateStock = async (item) => {
+    const data = {
+      category: item.categoryID,
+      name: item.name,
+      price: item.price,
+      strikeThroughPrice: item.strikeThroughPrice,
+      inStock: !item.inStock,
+      baseQuantity: item.baseQuantity,
+    }
+    const response = await updateItem(data, item.id)
+    console.log(response.data)
+    if (response.status === 201) {
+      setTempInstock({ inStock: response.data.inStock, id: item.id })
+    }
+  }
 
   return (
     <div>
@@ -129,7 +145,7 @@ export const Items = ({ match }) => {
                       <th>
                         <img
                           src={item.itemImageLinks[0]}
-                          alt={index}
+                          alt={index.toString()}
                           style={{
                             padding: "0",
                             maxWidth: "120px",
@@ -145,14 +161,27 @@ export const Items = ({ match }) => {
                         {item.name}
                       </th>
                       <th>{item.baseQuantity}</th>
-                      <th>
-                        Rs. {item.price}
-                      </th>
+                      <th>Rs. {item.price}</th>
                       <th>
                         {
                           <img
-                            src={item.inStock ? Tick : UnTick}
-                            alt={item.inStock}
+                            onClick={() => {
+                              handleUpdateStock(item)
+                            }}
+                            src={
+                              tempInstock.id === item.id && tempInstock !== null
+                                ? tempInstock
+                                  ? Tick
+                                  : UnTick
+                                : item.inStock
+                                ? Tick
+                                : UnTick
+                            }
+                            alt={
+                              tempInstock != null
+                                ? tempInstock.toString()
+                                : item.inStock.toString()
+                            }
                           />
                         }
                       </th>

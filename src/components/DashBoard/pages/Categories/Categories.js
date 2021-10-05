@@ -28,8 +28,10 @@ export const Categories = () => {
   const handleCreate = async () => {
     const response = await createCategory({ category: input })
     if (response) {
-      console.log(response)
+      // console.log(response)
       setData([...data, response])
+      setInput("")
+      setToggleCreate(false)
     }
   }
 

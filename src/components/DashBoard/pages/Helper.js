@@ -55,3 +55,23 @@ export const deleteCategory = async (id) => {
     return error.response
   }
 }
+
+export const updateItem = async (data, id) => {
+  try {
+    const response = await axios.put(
+      `${baseURL}/api/store-manager/item/${id}`,
+      JSON.stringify(data),
+      {
+        headers: {
+          Authorization: `${JSON.parse(isAuthenticated())}`,
+        },
+      }
+    )
+    if (response.status === 201) {
+      // console.log(response.data)
+      return response
+    }
+  } catch (error) {
+    return error.response
+  }
+}
