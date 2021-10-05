@@ -1,5 +1,4 @@
 import { Container, Typography } from "@mui/material"
-import { maxHeight, maxWidth } from "@mui/system"
 import axios from "axios"
 import React, { useEffect, useState } from "react"
 import { useHistory } from "react-router"
@@ -7,6 +6,8 @@ import { baseURL } from "../../../../config"
 import { isAuthenticated } from "../../../utils/isAuthenticated"
 import { DashboardHeader } from "../../components/DashboardHeader"
 import { fetchCategories } from "../Helper"
+import Tick from "../../../../assets/images/true-tick.svg"
+import UnTick from "../../../../assets/images/false-untick.svg"
 
 export const Items = ({ match }) => {
   const history = useHistory()
@@ -14,7 +15,7 @@ export const Items = ({ match }) => {
   const [categories, setCategories] = useState(null)
   const [allItems, setAllItems] = useState(null)
 
-  const [setCategoryId, setSetCategoryId] = useState(null)
+  const [categoryId, setCategoryId] = useState(null)
 
   const fetchItemsByCategory = async () => {
     try {
@@ -24,7 +25,7 @@ export const Items = ({ match }) => {
         },
       })
       if (response) {
-        console.log(response.data)
+        // console.log(response.data)
         setAllItems(response.data)
       }
     } catch (error) {
@@ -40,6 +41,17 @@ export const Items = ({ match }) => {
     }
     fetch()
   }, [])
+
+  useEffect(() => {
+    if (categories != null) {
+      const item = categories.filter(
+        (item) => item.category === match.params.categoryName
+      )
+      setCategoryId(item[0].id)
+      // console.log(categoryId)
+    }
+  }, [match.params.categoryName, categories])
+
   return (
     <div>
       <DashboardHeader />
@@ -108,31 +120,45 @@ export const Items = ({ match }) => {
           </thead>
           <tbody>
             {allItems &&
-              allItems.map((item, index) => {
-                return (
-                  <tr key={index}>
-                    <th>{index}</th>
-                    <th>
-                      <img
-                        src={item.itemImageLinks[0]}
-                        alt={index}
-                        // width="100px"
+              allItems
+                .filter((item) => item.categoryID === categoryId)
+                .map((item, index) => {
+                  return (
+                    <tr key={index}>
+                      <th>{index}</th>
+                      <th>
+                        <img
+                          src={item.itemImageLinks[0]}
+                          alt={index}
+                          style={{
+                            padding: "0",
+                            maxWidth: "120px",
+                          }}
+                        />
+                      </th>
+                      <th
                         style={{
-                          padding:"0",
-                          maxWidth: '120px'
+                          color: "#F88A12",
+                          textTransform: "capitalize",
                         }}
-                     />
-                    </th>
-                    <th style={{ textTransform: "capitalize" }}>{item.name}</th>
-                    <th>{item.baseQuantity}</th>
-                    <th>
-                      {item.price}
-                      <br /> (per base Qty.)
-                    </th>
-                    <th>{item.inStock? 'true': 'false'}</th>
-                  </tr>
-                )
-              })}
+                      >
+                        {item.name}
+                      </th>
+                      <th>{item.baseQuantity}</th>
+                      <th>
+                        Rs. {item.price}
+                      </th>
+                      <th>
+                        {
+                          <img
+                            src={item.inStock ? Tick : UnTick}
+                            alt={item.inStock}
+                          />
+                        }
+                      </th>
+                    </tr>
+                  )
+                })}
           </tbody>
         </table>
       </Container>

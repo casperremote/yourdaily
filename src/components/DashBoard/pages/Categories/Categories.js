@@ -33,7 +33,7 @@ export const Categories = () => {
             back
           </Typography>
           <Typography
-            style={{ color: "#F88A12", fontSize: "22px", cursor: "pointer" }}
+            style={{ color: "#F88A12", fontSize: "22px", cursor: "pointer", textAlign:'end' }}
           >
             + Add New Category
           </Typography>
