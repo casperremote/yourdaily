@@ -1,13 +1,18 @@
 import { Typography } from "@mui/material"
 import React from "react"
+import { useHistory } from "react-router"
 
 export const CustomCards = ({
   heading,
   subHeading,
   value,
   color,
+  link,
   isShowDetails,
 }) => {
+
+  const history = useHistory()
+
   return (
     <div className='custom-cards'>
       <div
@@ -25,11 +30,7 @@ export const CustomCards = ({
           {heading}
         </Typography>
         {subHeading && (
-          <Typography
-            variant='caption'
-            color='GrayText'
-            fontSize={16}
-          >
+          <Typography variant='caption' color='GrayText' fontSize={16}>
             {subHeading}
           </Typography>
         )}
@@ -39,7 +40,11 @@ export const CustomCards = ({
       </div>
       {isShowDetails ? (
         <div className='custom-cards-bottom'>
-          <Typography fontSize={18}>View Details</Typography>
+          <Typography fontSize={18} style={{ cursor: "pointer" }} onClick={()=>{
+            history.push(link)
+          }}>
+            View Details
+          </Typography>
         </div>
       ) : null}
     </div>

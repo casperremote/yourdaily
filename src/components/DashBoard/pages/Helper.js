@@ -17,3 +17,41 @@ export const fetchCategories = async () => {
     return error.response
   }
 }
+
+export const createCategory = async (data) => {
+  try {
+    const response = await axios.post(
+      `${baseURL}/api/store-manager/category`,
+      JSON.stringify(data),
+      {
+        headers: {
+          Authorization: `${JSON.parse(isAuthenticated())}`,
+        },
+      }
+    )
+    if (response) {
+      // console.log(response.data)
+      return response.data
+    }
+  } catch (error) {
+    return error.response.data
+  }
+}
+
+export const deleteCategory = async (id) => {
+  try {
+    const response = await axios.delete(
+      `${baseURL}/api/store-manager/category/${id}`,
+      {
+        headers: {
+          Authorization: `${JSON.parse(isAuthenticated())}`,
+        },
+      }
+    )
+    if (response.status === 200) {
+      return true
+    }
+  } catch (error) {
+    return error.response
+  }
+}

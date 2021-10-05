@@ -40,6 +40,7 @@ export const DashboardMainSection = () => {
         value={stats.cartBoyCount}
         isShowDetails={true}
         color='#F88A12'
+        
       />
       <CustomCards
         heading='Total Delivery Boy'
@@ -64,6 +65,7 @@ export const DashboardMainSection = () => {
         value={stats.totalItems}
         isShowDetails={true}
         color='#F88A12'
+        link="/dashboard/categories"
       />
 
       <CustomCards

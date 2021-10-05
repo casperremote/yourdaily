@@ -4,21 +4,27 @@
   align-items: center;
   margin: 50px 0 30px 0;
 }
-.main-nav-categories>P{
+.main-nav-categories > P {
   flex: 1 1;
   /* text-align: center; */
 }
-.main-nav-categories-names{
-  border: 1px solid #F88A12;
-  border-radius: 10px 10px 0 0 ;
-  border-bottom: 5px solid #F88A12;
+.main-nav-categories-create {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px 0 30px 0;
+}
+.main-nav-categories-names {
+  border: 1px solid #f88a12;
+  border-radius: 10px 10px 0 0;
+  border-bottom: 5px solid #f88a12;
   display: flex;
   justify-content: space-around;
   align-items: center;
   flex-direction: row;
   margin-bottom: 20px;
 }
-.main-nav-categories-names>P{
+.main-nav-categories-names > P {
   flex: 1 1;
   text-align: center;
 }
