@@ -41,7 +41,8 @@ th {
 }
 td,
 th{
-  font-size: 22px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 20px;
 }
 
 .categories-table > thead > tr > th {

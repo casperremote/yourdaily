@@ -1,6 +1,10 @@
 import { Button } from "@mui/material"
 import React, { useEffect, useState } from "react"
-import { fetchStaffDetails, enableDisableStaff } from "./helper"
+import {
+  fetchStaffDetails,
+  enableDisableStaff,
+  updateStaffRole,
+} from "./helper"
 import Tick from "../../../../assets/images/true-tick.svg"
 import UnTick from "../../../../assets/images/false-untick.svg"
 
@@ -26,6 +30,17 @@ export const CartPersonDetails = ({ type }) => {
       id,
       enabled ? "disable" : "enable"
     )
+    if (response.success) {
+      fetchDetails()
+    }
+  }
+
+  const handleRoleChange = async (staff) => {
+    const updateRoleData = {
+      id: staff.id,
+      newRole: "delivery-boy",
+    }
+    const response = await updateStaffRole(updateRoleData)
     if (response.success) {
       fetchDetails()
     }
@@ -87,6 +102,7 @@ export const CartPersonDetails = ({ type }) => {
                       padding: "3px".length,
                       margin: "0 6px",
                     }}
+                    onClick={() => handleRoleChange(staff)}
                     className='table-btn'
                   >
                     Change Role

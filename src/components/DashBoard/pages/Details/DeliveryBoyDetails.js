@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react"
-import { fetchStaffDetails, enableDisableStaff } from "./helper"
+import {
+  fetchStaffDetails,
+  enableDisableStaff,
+  updateStaffRole,
+} from "./helper"
 
 import Tick from "../../../../assets/images/true-tick.svg"
 import UnTick from "../../../../assets/images/false-untick.svg"
@@ -27,6 +31,17 @@ export const DeliveryBoyDetails = ({ type }) => {
       enabled ? "disable" : "enable"
     )
     if (response.success) {
+      fetchDetails()
+    }
+  }
+
+  const handleRoleChange = async (staff) => {
+    const updateRoleData = {
+      id: staff.id,
+      newRole: "cart-boy",
+    }
+    const response = await updateStaffRole(updateRoleData)
+    if(response.success){
       fetchDetails()
     }
   }
@@ -90,6 +105,7 @@ export const DeliveryBoyDetails = ({ type }) => {
                       margin: "0 6px",
                     }}
                     className='table-btn'
+                    onClick={()=>handleRoleChange(staff)}
                   >
                     Change Role
                   </Button>
