@@ -24,7 +24,7 @@ export const CustomCards = ({
         }}
       >
         <Typography
-          fontSize={isShowDetails ? 22 : 20}
+          fontSize={isShowDetails ? 18 : 18}
           style={{ whiteSpace: "pre-line" }}
         >
           {heading}
@@ -40,7 +40,7 @@ export const CustomCards = ({
       </div>
       {isShowDetails ? (
         <div className='custom-cards-bottom'>
-          <Typography fontSize={18} style={{ cursor: "pointer" }} onClick={()=>{
+          <Typography fontSize={16} style={{ cursor: "pointer" }} onClick={()=>{
             history.push(link)
           }}>
             View Details

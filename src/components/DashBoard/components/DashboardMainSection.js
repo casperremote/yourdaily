@@ -80,25 +80,25 @@ export const DashboardMainSection = () => {
       <CustomCards
         heading={`Total Ongoing ${"\n"} Bookings`}
         value={stats.onGoingOrder}
-        isShowDetails={false}
+        isShowDetails={true}
         color='#F88A12'
       />
       <CustomCards
         heading={`Past Week ${"\n"} Bookings`}
         value={stats.bookingForLastWeek}
-        isShowDetails={false}
+        isShowDetails={true}
         color='#F88A12'
       />
       <CustomCards
-        heading={`Denied ${"\n"} Orders`}
+        heading={`Denied / Disputed ${"\n"} Orders`}
         value={stats.deniedOrder}
-        isShowDetails={false}
+        isShowDetails={true}
         color='#F88A12'
       />
       <CustomCards
-        heading={`Disputed ${"\n"} Orders`}
-        value={stats.disputedOrder}
-        isShowDetails={false}
+        heading={`Scheduled ${"\n"} Orders`}
+        value={stats.scheduledOrder}
+        isShowDetails={true}
         color='#F88A12'
       />
     </div>
