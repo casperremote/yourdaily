@@ -38,9 +38,9 @@ export const Categories = () => {
   const handleDelete = async (item) => {
     const response = await deleteCategory(item.id)
     if (response) {
-      const res = data.findIndex(obj => obj.id === item.id)
+      const res = data.findIndex((obj) => obj.id === item.id)
       // console.log(res)
-      setData([...data.slice(0,res),...data.slice(res+1)])
+      setData([...data.slice(0, res), ...data.slice(res + 1)])
     }
   }
 
@@ -97,6 +97,9 @@ export const Categories = () => {
     return (
       <div className='main-nav-categories'>
         <Typography
+          onClick={() => {
+            history.goBack()
+          }}
           style={{ color: "#777777", fontSize: "22px", cursor: "pointer" }}
         >
           back

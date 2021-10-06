@@ -16,7 +16,6 @@ export const Items = ({ match }) => {
   const [allItems, setAllItems] = useState(null)
 
   const [categoryId, setCategoryId] = useState(null)
-
   const fetchItemsByCategory = async () => {
     try {
       const response = await axios.get(`${baseURL}/api/store-manager/item`, {
@@ -40,6 +39,7 @@ export const Items = ({ match }) => {
       setCategories(res)
     }
     fetch()
+    console.log(tempInstock)
   }, [tempInstock])
 
   useEffect(() => {
@@ -74,6 +74,9 @@ export const Items = ({ match }) => {
       <Container>
         <div className='main-nav-categories'>
           <Typography
+            onClick={() => {
+              history.push("/dashboard/categories")
+            }}
             style={{ color: "#777777", fontSize: "22px", cursor: "pointer" }}
           >
             back
@@ -105,10 +108,22 @@ export const Items = ({ match }) => {
                       textTransform: "capitalize",
                       fontSize: "22px",
                       cursor: "pointer",
+                      border: `${
+                        match.params.categoryName === item.category
+                          ? "1px solid #F88A12"
+                          : "1px solid #777777"
+                      }`,
+                      borderRadius: "10px 10px 0 0",
+                      borderBottom: "none",
                       color: `${
                         match.params.categoryName === item.category
-                          ? "#F88A12"
+                          ? "#ffffff"
                           : "#777777"
+                      } `,
+                      backgroundColor: `${
+                        match.params.categoryName === item.category
+                          ? "#F88A12"
+                          : "#ffffff"
                       } `,
                     }}
                   >
@@ -118,6 +133,7 @@ export const Items = ({ match }) => {
               })
             : null}
         </div>
+
         <table className='categories-table'>
           <thead>
             <tr>
@@ -141,8 +157,8 @@ export const Items = ({ match }) => {
                 .map((item, index) => {
                   return (
                     <tr key={index}>
-                      <th>{index}</th>
-                      <th>
+                      <td>{index}</td>
+                      <td>
                         <img
                           src={item.itemImageLinks[0]}
                           alt={index.toString()}
@@ -151,40 +167,28 @@ export const Items = ({ match }) => {
                             maxWidth: "120px",
                           }}
                         />
-                      </th>
-                      <th
+                      </td>
+                      <td
                         style={{
                           color: "#F88A12",
                           textTransform: "capitalize",
                         }}
                       >
                         {item.name}
-                      </th>
-                      <th>{item.baseQuantity}</th>
-                      <th>Rs. {item.price}</th>
-                      <th>
+                      </td>
+                      <td>{item.baseQuantity}</td>
+                      <td>Rs. {item.price}</td>
+                      <td>
                         {
                           <img
                             onClick={() => {
                               handleUpdateStock(item)
                             }}
-                            src={
-                              tempInstock.id === item.id && tempInstock !== null
-                                ? tempInstock
-                                  ? Tick
-                                  : UnTick
-                                : item.inStock
-                                ? Tick
-                                : UnTick
-                            }
-                            alt={
-                              tempInstock != null
-                                ? tempInstock.toString()
-                                : item.inStock.toString()
-                            }
+                            src={item.inStock ? Tick : UnTick}
+                            alt={item.inStock.toString()}
                           />
                         }
-                      </th>
+                      </td>
                     </tr>
                   )
                 })}

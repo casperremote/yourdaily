@@ -40,19 +40,21 @@ export const DashboardMainSection = () => {
         value={stats.cartBoyCount}
         isShowDetails={true}
         color='#F88A12'
-        
+        link='/details/cart-boy'
       />
       <CustomCards
         heading='Total Delivery Boy'
         value={stats.deliveryBoyCount}
         isShowDetails={true}
         color='#F88A12'
+        link='/details/delivery-boy'
       />
       <CustomCards
         heading='Total Users'
         value={stats.userCount}
         isShowDetails={true}
         color='#19006E'
+        link='/details/user-details'
       />
       <CustomCards
         heading='Unassinged Orders'
@@ -65,7 +67,7 @@ export const DashboardMainSection = () => {
         value={stats.totalItems}
         isShowDetails={true}
         color='#F88A12'
-        link="/dashboard/categories"
+        link='/dashboard/categories'
       />
 
       <CustomCards
