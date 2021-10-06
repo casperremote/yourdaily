@@ -30,11 +30,11 @@ export const CustomCards = ({
           {heading}
         </Typography>
         {subHeading && (
-          <Typography variant='caption' color='GrayText' fontSize={16}>
+          <Typography variant='caption' color='GrayText' fontSize={14}>
             {subHeading}
           </Typography>
         )}
-        <Typography fontSize={isShowDetails ? 70 : 78} style={{ color: color }}>
+        <Typography fontSize={isShowDetails ? 56 : 56} style={{ color: color }}>
           {value}
         </Typography>
       </div>

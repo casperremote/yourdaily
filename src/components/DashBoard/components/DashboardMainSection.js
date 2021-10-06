@@ -36,34 +36,34 @@ export const DashboardMainSection = () => {
   return (
     <div className='dashboard-main-section'>
       <CustomCards
-        heading='Total Cart Person'
+        heading={`Total ${"\n"} Cart Person`}
         value={stats.cartBoyCount}
         isShowDetails={true}
         color='#F88A12'
         link='/details/cart-boy'
       />
       <CustomCards
-        heading='Total Delivery Boy'
+        heading={`Total ${"\n"} Delivery Boy`}
         value={stats.deliveryBoyCount}
         isShowDetails={true}
         color='#F88A12'
         link='/details/delivery-boy'
       />
       <CustomCards
-        heading='Total Users'
+        heading={`Total ${"\n"} Users`}
         value={stats.userCount}
         isShowDetails={true}
         color='#19006E'
         link='/details/user-details'
       />
       <CustomCards
-        heading='Unassinged Orders'
+        heading={`Unassinged ${"\n"} Orders`}
         value={stats.unassignedOrders}
         isShowDetails={true}
         color='#F88A12'
       />
       <CustomCards
-        heading='Total Items'
+        heading={`Total ${"\n"} Items`}
         value={stats.totalItems}
         isShowDetails={true}
         color='#F88A12'
@@ -71,7 +71,7 @@ export const DashboardMainSection = () => {
       />
 
       <CustomCards
-        heading={`Total Active Users`}
+        heading={`Total ${"\n"} Active Users`}
         subHeading={`(Past 10 days order)`}
         value={stats.activeUsers}
         isShowDetails={false}
@@ -91,15 +91,17 @@ export const DashboardMainSection = () => {
       />
       <CustomCards
         heading={`Denied / Disputed ${"\n"} Orders`}
-        value={stats.deniedOrder}
+        value={`${stats.deniedOrder} / ${stats.disputedOrder}`}
         isShowDetails={true}
         color='#F88A12'
+        link='/dashboard/denied-order'
       />
       <CustomCards
         heading={`Scheduled ${"\n"} Orders`}
         value={stats.scheduledOrder}
         isShowDetails={true}
         color='#F88A12'
+        link='/dashboard/scheduled-order'
       />
     </div>
   )

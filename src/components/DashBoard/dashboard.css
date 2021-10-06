@@ -43,6 +43,7 @@
   background: #ffffff 0% 0% no-repeat padding-box;
   border-radius: 10px;
   opacity: 1;
+  height: 200px;
   text-align: center;
 }
 .custom-cards-bottom {

@@ -8,6 +8,7 @@ import { PrivateRoute } from "./components/PrivateRoute/PrivateRoute"
 import { Categories } from "./components/DashBoard/pages/Categories/Categories"
 import { Items } from "./components/DashBoard/pages/Categories/Items"
 import { Details } from "./components/DashBoard/pages/Details/Details"
+import { Orders } from "./components/DashBoard/pages/Orders/Orders"
 
 const App = () => {
   return (
@@ -26,6 +27,8 @@ const App = () => {
           component={Items}
         />
         <PrivateRoute exact path='/details/:pageName' component={Details} />
+        <PrivateRoute exact path='/dashboard/:orderType' component={Orders} />
+        
       </Switch>
     </Router>
   )
