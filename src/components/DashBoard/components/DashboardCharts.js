@@ -51,7 +51,7 @@ export const DashboardCharts = () => {
   useEffect(() => {
     fetchGraph1Data()
     fetchGraph2Data()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [daysGraph1, daysGraph2])
 
   if (graph1Data == null) {

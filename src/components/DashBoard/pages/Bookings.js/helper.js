@@ -20,3 +20,23 @@ export const fetchOnGoingOrders = async () => {
     return error.response
   }
 }
+
+export const fetchPastOrders = async (dates) => {
+  try {
+    const response = await axios.post(
+      `${baseURL}/api/store-manager/dashboard/order/history`,
+      JSON.stringify(dates),
+      {
+        headers: {
+          Authorization: `${JSON.parse(isAuthenticated())}`,
+        },
+      }
+    )
+    if (response) {
+      console.log(response)
+      return response.data
+    }
+  } catch (error) {
+    return error.response
+  }
+}
