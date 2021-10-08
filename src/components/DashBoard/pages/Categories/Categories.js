@@ -1,5 +1,5 @@
 import { Button, Container, Typography } from "@mui/material"
-import React, { useEffect, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { DashboardHeader } from "../../components/DashboardHeader"
 import "./categories.css"
 import { useHistory } from "react-router-dom"
@@ -25,7 +25,17 @@ export const Categories = () => {
     input.length > 0 ? setCreateButton(false) : setCreateButton(true)
   }, [input.length])
 
-  const handleCreate = async () => {
+  // const handleCreate = async () => {
+  //   const response = await createCategory({ category: input })
+  //   if (response) {
+  //     // console.log(response)
+  //     setData([...data, response])
+  //     setInput("")
+  //     setToggleCreate(false)
+  //   }
+  // }
+
+  const handleCreate = useCallback(async () => {
     const response = await createCategory({ category: input })
     if (response) {
       // console.log(response)
@@ -33,7 +43,7 @@ export const Categories = () => {
       setInput("")
       setToggleCreate(false)
     }
-  }
+  }, [input, data])
 
   const handleDelete = async (item) => {
     const response = await deleteCategory(item.id)

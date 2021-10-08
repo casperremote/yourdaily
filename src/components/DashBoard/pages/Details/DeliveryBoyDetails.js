@@ -41,7 +41,7 @@ export const DeliveryBoyDetails = ({ type }) => {
       newRole: "cart-boy",
     }
     const response = await updateStaffRole(updateRoleData)
-    if(response.success){
+    if (response.success) {
       fetchDetails()
     }
   }
@@ -105,7 +105,7 @@ export const DeliveryBoyDetails = ({ type }) => {
                       margin: "0 6px",
                     }}
                     className='table-btn'
-                    onClick={()=>handleRoleChange(staff)}
+                    onClick={() => handleRoleChange(staff)}
                   >
                     Change Role
                   </Button>

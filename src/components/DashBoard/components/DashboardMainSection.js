@@ -82,12 +82,14 @@ export const DashboardMainSection = () => {
         value={stats.onGoingOrder}
         isShowDetails={true}
         color='#F88A12'
+        link='/dashboard/orders/ongoing-orders'
       />
       <CustomCards
         heading={`Past Week ${"\n"} Bookings`}
         value={stats.bookingForLastWeek}
         isShowDetails={true}
         color='#F88A12'
+        link='/dashboard/orders/past-orders'
       />
       <CustomCards
         heading={`Denied / Disputed ${"\n"} Orders`}

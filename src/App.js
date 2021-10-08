@@ -9,6 +9,7 @@ import { Categories } from "./components/DashBoard/pages/Categories/Categories"
 import { Items } from "./components/DashBoard/pages/Categories/Items"
 import { Details } from "./components/DashBoard/pages/Details/Details"
 import { Orders } from "./components/DashBoard/pages/Orders/Orders"
+import { Bookings } from "./components/DashBoard/pages/Bookings.js/Bookings"
 
 const App = () => {
   return (
@@ -28,7 +29,11 @@ const App = () => {
         />
         <PrivateRoute exact path='/details/:pageName' component={Details} />
         <PrivateRoute exact path='/dashboard/:orderType' component={Orders} />
-        
+        <PrivateRoute
+          exact
+          path='/dashboard/orders/:bookingType'
+          component={Bookings}
+        />
       </Switch>
     </Router>
   )
