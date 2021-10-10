@@ -7,12 +7,14 @@ import { Container } from "@mui/material"
 
 export const DashBoard = () => {
   return (
-    <div className='dashboard'>
-      <DashboardHeader />
-      <Container>
-        <DashboardMainSection />
-        <DashboardCharts />
-      </Container>
-    </div>
+    <>
+      <div className='dashboard'>
+        <DashboardHeader />
+        <Container>
+          <DashboardMainSection />
+          <DashboardCharts />
+        </Container>
+      </div>
+    </>
   )
 }

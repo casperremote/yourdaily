@@ -42,7 +42,6 @@
 .custom-cards-top {
   background: #ffffff 0% 0% no-repeat padding-box;
   border-radius: 10px;
-  opacity: 1;
   height: 200px;
   text-align: center;
 }
@@ -63,7 +62,6 @@
   background: #ffffff 0% 0% no-repeat padding-box;
   border: 1px solid #000000;
   border-radius: 10px;
-  opacity: 1;
   padding: 20px;
   margin: 30px 0;
 }
@@ -102,4 +100,13 @@ select > option {
   opacity: 0.5;
   font-size: 18px;
   padding: 5px;
+}
+.dialog-offer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex: 1 1;
+  flex-direction: row;
+  font-size: 22px;
+  margin: 20px 0;
 }
