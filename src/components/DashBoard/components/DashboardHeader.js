@@ -24,11 +24,14 @@ import {
   fetchOffer,
   uploadOfferImage,
 } from "./helper"
+import { StaffRequests } from "./StaffRequests"
 
 export const DashboardHeader = () => {
   const history = useHistory()
 
-  const [openDialog, setOpenDialog] = useState(false)
+  const [openStaffDialog, setOpenStaffDialog] = useState(false)
+
+  const [openOfferDialog, setOpenOfferDialog] = useState(false)
   const [addOfferToggle, setAddOfferToggle] = useState(true)
   const [loading, setLoading] = useState({ img: false, offerData: false })
   const [offerData, setOfferData] = useState({
@@ -50,6 +53,10 @@ export const DashboardHeader = () => {
     uploaded: false,
   })
 
+  const handleStaffDialog = () => {
+    setOpenStaffDialog(!openStaffDialog)
+  }
+
   const fetchOfferData = async () => {
     const response = await fetchOffer()
     console.log(response)
@@ -68,9 +75,9 @@ export const DashboardHeader = () => {
   }, [])
 
   const handleOfferDialogClick = useCallback(() => {
-    setOpenDialog(!openDialog)
+    setOpenOfferDialog(!openOfferDialog)
     setAddOfferToggle(true)
-  }, [openDialog])
+  }, [openOfferDialog])
 
   const handleLogout = () => {
     localStorage.clear()
@@ -147,7 +154,7 @@ export const DashboardHeader = () => {
       <Dialog
         maxWidth='sm'
         fullWidth
-        open={openDialog}
+        open={openOfferDialog}
         onClose={handleOfferDialogClick}
       >
         <DialogTitle
@@ -322,7 +329,14 @@ export const DashboardHeader = () => {
   }
   return (
     <>
-      {openDialog && showOfferDialog()}
+      {openOfferDialog && showOfferDialog()}
+      {openStaffDialog && (
+        <StaffRequests
+          handleDialogClick={handleStaffDialog}
+          openDialog={openStaffDialog}
+        />
+      )}
+
       <div className='header-dashboard'>
         <Container>
           <div className='header-dashboard-wrapper'>
@@ -351,7 +365,7 @@ export const DashboardHeader = () => {
               <IconButton onClick={handleOfferDialogClick}>
                 <LocalOfferIcon style={{ color: "#fff" }} />
               </IconButton>
-              <IconButton>
+              <IconButton onClick={handleStaffDialog}>
                 <PersonAddAltIcon style={{ color: "#fff" }} />
               </IconButton>
               <IconButton onClick={handleLogout}>
