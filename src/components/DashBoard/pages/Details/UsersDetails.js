@@ -8,17 +8,24 @@ import {
   Typography,
   IconButton,
   Paper,
+  ListItemButton,
+  List,
+  ListItem,
+  ListItemText,
 } from "@mui/material"
 import React, { useEffect, useState } from "react"
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded"
 import UserIcon from "../../../../assets/images/userIcon.svg"
-import { fetchUserDetails } from "./helper"
+import { fetchUserDetails, fetchUserDetailsById, resetFlagUser } from "./helper"
 import FlagIcon from "@mui/icons-material/Flag"
 import StarRateRoundedIcon from "@mui/icons-material/StarRateRounded"
 
 export const UsersDetails = ({ type }) => {
   const [userDetails, setUserDetails] = useState(null)
   const [openDialog, setOpenDialog] = useState(false)
+
+  const [userDetailById, setUserDetailById] = useState(null)
+
   const fetchDetails = async () => {
     const response = await fetchUserDetails()
     console.log(response)
@@ -33,8 +40,22 @@ export const UsersDetails = ({ type }) => {
     return <div></div>
   }
 
-  const handleDialog = () => {
+  const getUserDetailsById = async (userId) => {
+    const response = await fetchUserDetailsById(userId)
+    console.log(response.data)
+    setUserDetailById(response.data)
+  }
+
+  const handleDialog = (user) => {
+    setUserDetailById(null)
     setOpenDialog(!openDialog)
+    getUserDetailsById(user.id)
+  }
+
+  const handleResetFlag = async (userId) => {
+    const response = await resetFlagUser(userId)
+    console.log(response)
+    getUserDetailsById(userId)
   }
 
   const userDetailPopup = () => {
@@ -63,15 +84,31 @@ export const UsersDetails = ({ type }) => {
             <div style={{ width: "460px" }}>
               <div className='dialog-offer-content'>
                 <label>Name</label>
-                <input />
+                <input
+                  disabled
+                  style={{ textTransform: "capitalize" }}
+                  value={userDetailById !== null && userDetailById[0].name}
+                />
               </div>
               <div className='dialog-offer-content'>
                 <label>Contact</label>
-                <input />
+                <input
+                  disabled
+                  value={
+                    userDetailById !== null &&
+                    userDetailById[0].contact.slice(3)
+                  }
+                />
               </div>
               <div className='dialog-offer-content'>
                 <label>Reg. date</label>
-                <input />
+                <input
+                  disabled
+                  value={
+                    userDetailById !== null &&
+                    new Date(userDetailById[0].regDate).toLocaleDateString()
+                  }
+                />
               </div>
             </div>
           </div>
@@ -83,7 +120,12 @@ export const UsersDetails = ({ type }) => {
               justifyContent: "flex-end",
             }}
           >
-            <Button style={{ color: "#f88a12" }}>Reset Flag</Button>
+            <Button
+              onClick={() => handleResetFlag(userDetailById[0].id)}
+              style={{ color: "#f88a12" }}
+            >
+              Reset Flag
+            </Button>
           </div>
           <div
             style={{
@@ -101,11 +143,14 @@ export const UsersDetails = ({ type }) => {
                 padding: "20px",
                 background:
                   "transparent linear-gradient(180deg, #FFECD7 0%, #FFC9C9 100%) 0% 0% no-repeat padding-box",
-                minWidth: "150px",
+                width: "150px",
                 color: "#0E8B00",
+                height: "120px",
               }}
             >
-              <Typography variant='h3'> 0 </Typography>
+              <Typography variant='h5'>
+                {userDetailById !== null && userDetailById[0].totalOrders}
+              </Typography>
               <Typography variant='h6'> Total Orders</Typography>
             </Paper>
             <Paper
@@ -116,11 +161,14 @@ export const UsersDetails = ({ type }) => {
                 padding: "20px",
                 background:
                   "transparent linear-gradient(180deg, #FFECD7 0%, #FFC9C9 100%) 0% 0% no-repeat padding-box",
-                minWidth: "150px",
+                width: "150px",
+                height: "120px",
                 color: "#0E8B00",
               }}
             >
-              <Typography variant='h3'> ₹0 </Typography>
+              <Typography variant='h5'>
+                ₹{userDetailById !== null && userDetailById[0].totalAmount}
+              </Typography>
               <Typography variant='h6'> Total Amount</Typography>
             </Paper>
             <Paper
@@ -131,11 +179,14 @@ export const UsersDetails = ({ type }) => {
                 padding: "20px",
                 background:
                   "transparent linear-gradient(180deg, #FFECD7 0%, #FFC9C9 100%) 0% 0% no-repeat padding-box",
-                minWidth: "150px",
+                width: "150px",
                 color: "#F88A12",
+                height: "120px",
               }}
             >
-              <Typography variant='h3'> 0 </Typography>
+              <Typography variant='h5'>
+                {userDetailById !== null && userDetailById[0].canceledOrders}
+              </Typography>
               <Typography variant='h6'> Cancel</Typography>
             </Paper>
             <Paper
@@ -146,14 +197,15 @@ export const UsersDetails = ({ type }) => {
                 padding: "20px",
                 background:
                   "transparent linear-gradient(180deg, #FFECD7 0%, #FFC9C9 100%) 0% 0% no-repeat padding-box",
-                minWidth: "150px",
+                width: "150px",
                 color: "#FF0000",
+                height: "120px",
               }}
             >
-              <Typography variant='h3'>
-                0
+              <Typography variant='h5'>
+                {userDetailById !== null && userDetailById[0].flagCount}
                 <span>
-                  <FlagIcon fontSize='large' />
+                  <FlagIcon fontSize='medium' />
                 </span>
               </Typography>
               <Typography variant='h6'> Flagged</Typography>
@@ -166,18 +218,71 @@ export const UsersDetails = ({ type }) => {
                 padding: "20px",
                 background:
                   "transparent linear-gradient(180deg, #FFECD7 0%, #FFC9C9 100%) 0% 0% no-repeat padding-box",
-                minWidth: "150px",
+                width: "150px",
                 color: "#F88A12",
+                height: "120px",
               }}
             >
-              <Typography variant='h3'>
-                0
+              <Typography variant='h5'>
+                {userDetailById !== null && userDetailById[0].avgRating}
                 <span>
-                  <StarRateRoundedIcon fontSize='large' />
+                  <StarRateRoundedIcon fontSize='medium' />
                 </span>
               </Typography>
               <Typography variant='h6'> Avg. Rating</Typography>
             </Paper>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flex: "1 1",
+              padding: "10px",
+              justifyContent: "space-between",
+              alignItems: "start",
+            }}
+          >
+            <List>
+              <ListItem style={{ backgroundColor: "#F88A12", color: "#fff" }}>
+                <h4>Most used Locations</h4>
+              </ListItem>
+              {userDetailById === null ? (
+                <ListItem></ListItem>
+              ) : (
+                userDetailById[0].topThreeLocation.map((location, index) => {
+                  return (
+                    <ListItem disablePadding key={index}>
+                      <ListItemButton
+                        onClick={() => {
+                          window.open(
+                            `https://maps.google.com/?q=${location.latitude},${location.longitude}`
+                          )
+                        }}
+                      >
+                        <ListItemText primary={location.addressData} />
+                      </ListItemButton>
+                    </ListItem>
+                  )
+                })
+              )}
+            </List>
+            <List>
+              <ListItem style={{ backgroundColor: "#F88A12", color: "#fff" }}>
+                <h4>Top Three Ordered Items</h4>
+              </ListItem>
+              {userDetailById === null ? (
+                <ListItem></ListItem>
+              ) : (
+                userDetailById[0].topThreeItems.map((item, index) => {
+                  return (
+                    <ListItem disablePadding key={index}>
+                      <ListItemButton>
+                        <ListItemText primary={item} />
+                      </ListItemButton>
+                    </ListItem>
+                  )
+                })
+              )}
+            </List>
           </div>
         </DialogContent>
       </Dialog>
@@ -201,6 +306,7 @@ export const UsersDetails = ({ type }) => {
           </tr>
         </thead>
         <tbody>
+          {console.log(userDetails)}
           {userDetails &&
             userDetails.map((user, index) => {
               return (
@@ -212,7 +318,7 @@ export const UsersDetails = ({ type }) => {
                       textTransform: "capitalize",
                       cursor: "pointer",
                     }}
-                    onClick={handleDialog}
+                    onClick={() => handleDialog(user)}
                   >
                     {user.name}
                   </td>

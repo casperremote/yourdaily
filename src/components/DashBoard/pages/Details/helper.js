@@ -78,3 +78,42 @@ export const fetchUserDetails = async (staff) => {
     return error.response
   }
 }
+
+export const fetchUserDetailsById = async (id) => {
+  try {
+    const response = await axios.get(
+      `${baseURL}/api/store-manager/dashboard/user/details/${id}`,
+      {
+        headers: {
+          Authorization: `${JSON.parse(isAuthenticated())}`,
+        },
+      }
+    )
+    if (response) {
+      //   console.log(response.data)
+      return response
+    }
+  } catch (error) {
+    return error.response
+  }
+}
+
+export const resetFlagUser = async (id) => {
+  try {
+    const response = await axios.put(
+      `${baseURL}/api/store-manager/dashboard/unflag/user/${id}`,
+      null,
+      {
+        headers: {
+          Authorization: `${JSON.parse(isAuthenticated())}`,
+        },
+      }
+    )
+    if (response) {
+      //   console.log(response.data)
+      return response
+    }
+  } catch (error) {
+    return error.response
+  }
+}

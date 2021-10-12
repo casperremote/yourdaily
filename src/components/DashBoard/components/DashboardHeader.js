@@ -22,15 +22,18 @@ import {
   createOffer,
   deleteOffer,
   fetchOffer,
+  getStaffList,
   uploadOfferImage,
 } from "./helper"
 import { StaffRequests } from "./StaffRequests"
+
+import Badge from "@mui/material/Badge"
 
 export const DashboardHeader = () => {
   const history = useHistory()
 
   const [openStaffDialog, setOpenStaffDialog] = useState(false)
-
+  const [stafflistCount, setStafflistCount] = useState(0)
   const [openOfferDialog, setOpenOfferDialog] = useState(false)
   const [addOfferToggle, setAddOfferToggle] = useState(true)
   const [loading, setLoading] = useState({ img: false, offerData: false })
@@ -52,6 +55,16 @@ export const DashboardHeader = () => {
     previewPath: "",
     uploaded: false,
   })
+
+  useEffect(() => {
+    const getStaffCount = async () => {
+      const response = await getStaffList()
+      if (response) {
+        setStafflistCount(response.data.length)
+      }
+    }
+    getStaffCount()
+  }, [])
 
   const handleStaffDialog = () => {
     setOpenStaffDialog(!openStaffDialog)
@@ -366,7 +379,9 @@ export const DashboardHeader = () => {
                 <LocalOfferIcon style={{ color: "#fff" }} />
               </IconButton>
               <IconButton onClick={handleStaffDialog}>
-                <PersonAddAltIcon style={{ color: "#fff" }} />
+                <Badge badgeContent={stafflistCount} color='error'>
+                  <PersonAddAltIcon style={{ color: "#fff" }} />
+                </Badge>
               </IconButton>
               <IconButton onClick={handleLogout}>
                 <LogoutIcon style={{ color: "#fff" }} />
