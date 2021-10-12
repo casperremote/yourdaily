@@ -10,7 +10,6 @@ export const CustomCards = ({
   link,
   isShowDetails,
 }) => {
-
   const history = useHistory()
 
   return (
@@ -20,7 +19,7 @@ export const CustomCards = ({
         style={{
           padding: "10px 0",
           borderRadius: `${isShowDetails ? "10px 10px 0px 0px" : "10px"}`,
-          height: `${isShowDetails ? "auto" : "180px"}`,
+          height: `${isShowDetails ? "auto" : "194px"}`,
         }}
       >
         <Typography
@@ -40,9 +39,13 @@ export const CustomCards = ({
       </div>
       {isShowDetails ? (
         <div className='custom-cards-bottom'>
-          <Typography fontSize={16} style={{ cursor: "pointer" }} onClick={()=>{
-            history.push(link)
-          }}>
+          <Typography
+            fontSize={16}
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              history.push(link)
+            }}
+          >
             View Details
           </Typography>
         </div>
