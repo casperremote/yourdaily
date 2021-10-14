@@ -18,7 +18,7 @@ export const fetchOffer = async () => {
   }
 }
 
-export const uploadOfferImage = async (file, type) => {
+export const uploadImage = async (file, type) => {
   try {
     const response = await axios.post(
       `${baseURL}/api/store-manager/image/${type}`,
@@ -125,6 +125,25 @@ export const denyStaffRole = async (data) => {
     )
     if (response) {
       //   console.log(response)
+      return response
+    }
+  } catch (error) {
+    return error.response
+  }
+}
+
+export const fetchNewOrders = async () => {
+  try {
+    const response = await axios.get(
+      `${baseURL}/api/store-manager/dashboard/order/new`,
+      {
+        headers: {
+          Authorization: `${JSON.parse(isAuthenticated())}`,
+        },
+      }
+    )
+    if (response) {
+      // console.log(response)
       return response
     }
   } catch (error) {

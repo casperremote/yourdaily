@@ -8,13 +8,17 @@ import { DashboardHeader } from "../../components/DashboardHeader"
 import { fetchCategories, updateItem } from "../Helper"
 import Tick from "../../../../assets/images/true-tick.svg"
 import UnTick from "../../../../assets/images/false-untick.svg"
+import { CreateItemDialog } from "./CreateItemDialog"
 
 export const Items = ({ match }) => {
   const history = useHistory()
   const [tempInstock, setTempInstock] = useState({ inStock: null, id: null })
   const [categories, setCategories] = useState(null)
   const [allItems, setAllItems] = useState(null)
-
+  const [openDialog, setOpenDialog] = useState(false)
+  const handleDialog = () => {
+    setOpenDialog(!openDialog)
+  }
   const [categoryId, setCategoryId] = useState(null)
   const fetchItemsByCategory = async () => {
     try {
@@ -32,14 +36,15 @@ export const Items = ({ match }) => {
     }
   }
 
+  const getFetch = async () => {
+    const res = await fetchCategories()
+    fetchItemsByCategory()
+    setCategories(res)
+  }
+
   useEffect(() => {
-    async function fetch() {
-      const res = await fetchCategories()
-      fetchItemsByCategory()
-      setCategories(res)
-    }
-    fetch()
-    console.log(tempInstock)
+    getFetch()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tempInstock])
 
   useEffect(() => {
@@ -69,7 +74,13 @@ export const Items = ({ match }) => {
   }
 
   return (
-    <div>
+    <>
+      <CreateItemDialog
+        openDialog={openDialog}
+        handleDialog={handleDialog}
+        categories={categories}
+        getFetch={getFetch}
+      />
       <DashboardHeader />
       <Container>
         <div className='main-nav-categories'>
@@ -91,6 +102,7 @@ export const Items = ({ match }) => {
               cursor: "pointer",
               textAlign: "end",
             }}
+            onClick={handleDialog}
           >
             + Add New Item
           </Typography>
@@ -157,7 +169,7 @@ export const Items = ({ match }) => {
                 .map((item, index) => {
                   return (
                     <tr key={index}>
-                      <td>{index}</td>
+                      <td>{index + 1}</td>
                       <td>
                         <img
                           src={item.itemImageLinks[0]}
@@ -195,6 +207,6 @@ export const Items = ({ match }) => {
           </tbody>
         </table>
       </Container>
-    </div>
+    </>
   )
 }

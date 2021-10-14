@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogTitle,
   IconButton,
+  Snackbar,
   TextField,
   Typography,
 } from "@mui/material"
@@ -21,9 +22,10 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded"
 import {
   createOffer,
   deleteOffer,
+  fetchNewOrders,
   fetchOffer,
   getStaffList,
-  uploadOfferImage,
+  uploadImage,
 } from "./helper"
 import { StaffRequests } from "./StaffRequests"
 
@@ -115,7 +117,7 @@ export const DashboardHeader = () => {
     const formData = new FormData()
     formData.append("offer", offerImg.file)
     setLoading({ ...loading, img: true })
-    const response = await uploadOfferImage(formData, "offer")
+    const response = await uploadImage(formData, "offer")
     // console.log(response)
     if (response.status === 200) {
       setLoading({ ...loading, img: false })
@@ -340,8 +342,56 @@ export const DashboardHeader = () => {
       </Dialog>
     )
   }
+  const [snackOpen, setSnackOpen] = useState(false)
+  // const [orders, setOrders] = useState([])
+
+  const [latestOrders, setLatestOrders] = useState([])
+
+  const handleSnackBar = () => {
+    setSnackOpen(!snackOpen)
+  }
+
+  useEffect(() => {
+    setInterval(async () => {
+      const res = await fetchNewOrders()
+      console.log(res.status)
+      // setOrders(res.data)
+      const newOrders = [...res.data]
+      const oldOrders =
+        JSON.parse(localStorage.getItem("new_orders")) === null
+          ? []
+          : JSON.parse(localStorage.getItem("new_orders"))
+      console.log(newOrders)
+      console.log(oldOrders)
+      var latestOrdersArr = []
+      for (let i = 0; i < newOrders.length; i++) {
+        var c = 0
+        for (let j = 0; j < oldOrders.length; j++) {
+          if (newOrders[i].orderID === oldOrders[j].orderID) {
+            c++
+          }
+        }
+        if (c === 0) {
+          latestOrdersArr.push(newOrders[i])
+        }
+      }
+      setLatestOrders(latestOrdersArr)
+      if (latestOrdersArr.length > 0) {
+        setSnackOpen(true)
+      }
+      console.log(latestOrdersArr)
+      // setLatestOrders(latestOrdersArr)
+      localStorage.setItem("new_orders", JSON.stringify(res.data))
+    }, 5000)
+  }, [])
+
   return (
     <>
+      {snackOpen &&
+        latestOrders.map((order, key) => {
+          return <Snackbar message={<div style></div>} />
+        })}
+
       {openOfferDialog && showOfferDialog()}
       {openStaffDialog && (
         <StaffRequests
