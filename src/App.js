@@ -10,6 +10,7 @@ import { Items } from "./components/DashBoard/pages/Categories/Items"
 import { Details } from "./components/DashBoard/pages/Details/Details"
 import { Orders } from "./components/DashBoard/pages/Orders/Orders"
 import { Bookings } from "./components/DashBoard/pages/Bookings.js/Bookings"
+import { UnAssignedOrdersModals } from "./components/DashBoard/pages/Orders/UnAssignedOrdersModal"
 
 const App = () => {
   return (
@@ -28,6 +29,12 @@ const App = () => {
           component={Items}
         />
         <PrivateRoute exact path='/details/:pageName' component={Details} />
+        <PrivateRoute
+          exact
+          path='/dashboard/unassigned-orders'
+          component={UnAssignedOrdersModals}
+        />
+
         <PrivateRoute exact path='/dashboard/:orderType' component={Orders} />
         <PrivateRoute
           exact

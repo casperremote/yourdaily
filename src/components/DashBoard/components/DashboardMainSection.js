@@ -61,6 +61,7 @@ export const DashboardMainSection = () => {
         value={stats.unassignedOrders}
         isShowDetails={true}
         color='#F88A12'
+        link='/dashboard/unassigned-orders'
       />
       <CustomCards
         heading={`Total ${"\n"} Items`}

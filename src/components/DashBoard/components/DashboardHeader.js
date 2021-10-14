@@ -19,6 +19,7 @@ import CategoryIcon from "@mui/icons-material/Category"
 import LocalOfferIcon from "@mui/icons-material/LocalOffer"
 import { Button } from "rsuite"
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded"
+import MyLocationIcon from "@mui/icons-material/MyLocation"
 import {
   createOffer,
   deleteOffer,
@@ -28,6 +29,7 @@ import {
   uploadImage,
 } from "./helper"
 import { StaffRequests } from "./StaffRequests"
+import PhoneIcon from "@mui/icons-material/Phone"
 
 import Badge from "@mui/material/Badge"
 
@@ -343,20 +345,31 @@ export const DashboardHeader = () => {
     )
   }
   const [snackOpen, setSnackOpen] = useState(false)
-  // const [orders, setOrders] = useState([])
-
   const [latestOrders, setLatestOrders] = useState([])
+  const [notificationQueue, setNotificationQueue] = useState([])
 
   const handleSnackBar = () => {
     setSnackOpen(!snackOpen)
   }
 
+  const handleSnackBarByID = useCallback(
+    (orderID) => {
+      const notifications = [...notificationQueue]
+      notifications.splice(
+        notifications.findIndex((order) => order.orderID === orderID),
+        1
+      )
+      setNotificationQueue(notifications)
+    },
+    [notificationQueue]
+  )
+
   useEffect(() => {
     setInterval(async () => {
       const res = await fetchNewOrders()
+      // console.log(res)
       console.log(res.status)
-      // setOrders(res.data)
-      const newOrders = [...res.data]
+      const newOrders = res.data
       const oldOrders =
         JSON.parse(localStorage.getItem("new_orders")) === null
           ? []
@@ -375,22 +388,92 @@ export const DashboardHeader = () => {
           latestOrdersArr.push(newOrders[i])
         }
       }
+      // console.log(latestOrdersArr)
+
       setLatestOrders(latestOrdersArr)
-      if (latestOrdersArr.length > 0) {
-        setSnackOpen(true)
-      }
-      console.log(latestOrdersArr)
-      // setLatestOrders(latestOrdersArr)
+
       localStorage.setItem("new_orders", JSON.stringify(res.data))
     }, 5000)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    if (notificationQueue.length > 0) {
+      setSnackOpen(true)
+    }
+    setNotificationQueue([...notificationQueue, ...latestOrders])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [latestOrders])
 
   return (
     <>
-      {snackOpen &&
-        latestOrders.map((order, key) => {
-          return <Snackbar message={<div style></div>} />
-        })}
+      {snackOpen && (
+        <Snackbar
+          open={snackOpen}
+          onClose={handleSnackBar}
+          autoHideDuration={null}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        >
+          <div>
+            {notificationQueue.map((order, key) => {
+              return (
+                <div className='snackbar-list' key={key}>
+                  <div className='snackbar-header'>
+                    <Typography style={{ fontWeight: "600" }}>
+                      New Order - {order.orderID}
+                    </Typography>
+                    <IconButton
+                      onClick={() => handleSnackBarByID(order.orderID)}
+                    >
+                      <CloseRoundedIcon style={{ color: "#fff" }} />
+                    </IconButton>
+                  </div>
+                  <div className='snackbar-body'>
+                    <div
+                      style={{
+                        display: "flex ",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div className='snackbar-content'>
+                        <PhoneIcon style={{ marginRight: "10px" }} />
+                        <Typography variant='caption' fontSize={16}>
+                          {order.userPhone}
+                        </Typography>
+                      </div>
+
+                      <span
+                        style={{
+                          float: "right",
+                          color: "#F88A12",
+                          fontWeight: "600",
+                        }}
+                      >
+                        Order Type <br />
+                        <span
+                          style={{
+                            float: "right",
+                            color: "grey",
+                            fontWeight: "600",
+                          }}
+                        >
+                          {order.orderType}
+                        </span>
+                      </span>
+                    </div>
+                    <div className='snackbar-content'>
+                      <MyLocationIcon style={{ marginRight: "10px" }} />
+                      <Typography variant='caption'>
+                        {order.userAddressData}
+                      </Typography>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </Snackbar>
+      )}
 
       {openOfferDialog && showOfferDialog()}
       {openStaffDialog && (
@@ -407,6 +490,7 @@ export const DashboardHeader = () => {
               className='header-dashboard-logo'
               onClick={() => {
                 history.push("/")
+                // setPlaySound(true)
               }}
             >
               <img src={SVGLogo} alt='company-logo' />

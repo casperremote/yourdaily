@@ -110,3 +110,32 @@ select > option {
   font-size: 22px;
   margin: 20px 0;
 }
+
+.snackbar-list {
+  margin-bottom: 10px;
+  width: 300px;
+  border-radius: 10px;
+  box-shadow: 0px 0 15px 0px #00000042;
+}
+
+.snackbar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f88a12;
+  color: #fff;
+  padding: 3px 20px;
+  border-radius: 10px 10px 0 0;
+}
+.snackbar-body {
+  background-color: rgb(255, 255, 255);
+  padding: 10px;
+  border-radius: 0 0 10px 10px;
+}
+
+.snackbar-content {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+  margin-bottom: 10px;
+}
